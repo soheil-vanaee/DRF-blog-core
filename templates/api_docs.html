@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechBlog - API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #444;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+        }
+        
+        nav a:hover {
+            background-color: #555;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .endpoint {
+            margin: 2rem 0;
+            padding: 1rem;
+            border-left: 4px solid #007cba;
+            background-color: #f9f9f9;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background-color: #007cba;
+            color: white;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .path {
+            font-family: monospace;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .description {
+            margin: 0.5rem 0;
+        }
+        
+        .params {
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+        }
+        
+        .param {
+            margin: 0.25rem 0;
+        }
+        
+        .response {
+            background-color: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: 3px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        
+        h1, h2, h3 {
+            color: #333;
+        }
+        
+        code {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+        
+        pre {
+            background-color: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TechBlog API Documentation</h1>
+        <p>RESTful API for the TechBlog application</p>
+    </header>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/api/">API Documentation</a>
+        <a href="/admin/">Admin</a>
+    </nav>
+    
+    <div class="container">
+        <h2>Authentication</h2>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">POST</span>
+                <span class="path">/api/auth/register/</span>
+            </div>
+            <div class="description">Register a new user account</div>
+            <div class="params">
+                <div class="param"><strong>Request Body:</strong> <code>{ "username": "string", "email": "string", "password": "string", "password_confirm": "string", "first_name": "string", "last_name": "string" }</code></div>
+                <div class="param"><strong>Response:</strong> User object with JWT tokens</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">POST</span>
+                <span class="path">/api/auth/login/</span>
+            </div>
+            <div class="description">Login to an existing account</div>
+            <div class="params">
+                <div class="param"><strong>Request Body:</strong> <code>{ "email": "string", "password": "string" }</code></div>
+                <div class="param"><strong>Response:</strong> User object with JWT tokens</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">POST</span>
+                <span class="path">/api/auth/logout/</span>
+            </div>
+            <div class="description">Logout and blacklist refresh token</div>
+            <div class="params">
+                <div class="param"><strong>Request Body:</strong> <code>{ "refresh_token": "string" }</code></div>
+                <div class="param"><strong>Response:</strong> Empty with 205 status</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">GET/PUT/PATCH/DELETE</span>
+                <span class="path">/api/auth/profile/</span>
+            </div>
+            <div class="description">Get, update, or delete user profile</div>
+            <div class="params">
+                <div class="param"><strong>Requires:</strong> Valid JWT token in Authorization header</div>
+                <div class="param"><strong>Response:</strong> User object</div>
+            </div>
+        </div>
+        
+        <h2>Posts</h2>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">GET</span>
+                <span class="path">/api/posts/</span>
+            </div>
+            <div class="description">Get a list of posts with optional filtering and sorting</div>
+            <div class="params">
+                <div class="param"><strong>Query Parameters:</strong></div>
+                <div class="param">- <code>category__id</code>: Filter by category ID</div>
+                <div class="param">- <code>author__id</code>: Filter by author ID</div>
+                <div class="param">- <code>search</code>: Search in title, summary, and body</div>
+                <div class="param">- <code>ordering</code>: Sort by field (created_at, updated_at, title)</div>
+                <div class="param"><strong>Response:</strong> Paginated list of posts</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">POST</span>
+                <span class="path">/api/posts/</span>
+            </div>
+            <div class="description">Create a new post</div>
+            <div class="params">
+                <div class="param"><strong>Requires:</strong> Valid JWT token in Authorization header</div>
+                <div class="param"><strong>Request Body:</strong> <code>{ "title": "string", "summary": "string", "body": "text", "category_id": "int", "tag_ids": "int[]" }</code></div>
+                <div class="param"><strong>Response:</strong> Created post object</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">GET</span>
+                <span class="path">/api/posts/{id}/</span>
+            </div>
+            <div class="description">Get a specific post</div>
+            <div class="params">
+                <div class="param"><strong>Response:</strong> Post object</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">PUT/PATCH</span>
+                <span class="path">/api/posts/{id}/</span>
+            </div>
+            <div class="description">Update a specific post (only author or admin can update)</div>
+            <div class="params">
+                <div class="param"><strong>Requires:</strong> Valid JWT token in Authorization header</div>
+                <div class="param"><strong>Request Body:</strong> <code>{ "title": "string", "summary": "string", "body": "text", "category_id": "int", "tag_ids": "int[]" }</code></div>
+                <div class="param"><strong>Response:</strong> Updated post object</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">DELETE</span>
+                <span class="path">/api/posts/{id}/</span>
+            </div>
+            <div class="description">Delete a specific post (only author or admin can delete)</div>
+            <div class="params">
+                <div class="param"><strong>Requires:</strong> Valid JWT token in Authorization header</div>
+                <div class="param"><strong>Response:</strong> Empty with 204 status</div>
+            </div>
+        </div>
+        
+        <h2>Categories</h2>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">GET</span>
+                <span class="path">/api/categories/</span>
+            </div>
+            <div class="description">Get a list of all categories</div>
+            <div class="params">
+                <div class="param"><strong>Response:</strong> List of category objects</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">POST</span>
+                <span class="path">/api/categories/</span>
+            </div>
+            <div class="description">Create a new category (admin only)</div>
+            <div class="params">
+                <div class="param"><strong>Requires:</strong> Valid JWT token and admin privileges</div>
+                <div class="param"><strong>Request Body:</strong> <code>{ "name": "string", "description": "text" }</code></div>
+                <div class="param"><strong>Response:</strong> Created category object</div>
+            </div>
+        </div>
+        
+        <h2>Tags</h2>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">GET</span>
+                <span class="path">/api/tags/</span>
+            </div>
+            <div class="description">Get a list of all tags</div>
+            <div class="params">
+                <div class="param"><strong>Response:</strong> List of tag objects</div>
+            </div>
+        </div>
+        
+        <div class="endpoint">
+            <div>
+                <span class="method">POST</span>
+                <span class="path">/api/tags/</span>
+            </div>
+            <div class="description">Create a new tag (admin only)</div>
+            <div class="params">
+                <div class="param"><strong>Requires:</strong> Valid JWT token and admin privileges</div>
+                <div class="param"><strong>Request Body:</strong> <code>{ "name": "string", "description": "text" }</code></div>
+                <div class="param"><strong>Response:</strong> Created tag object</div>
+            </div>
+        </div>
+        
+        <h2>Authentication Headers</h2>
+        <p>For protected endpoints, include the JWT token in the Authorization header:</p>
+        <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 TechBlog. All rights reserved.</p>
+    </footer>
+</body>
+</html>

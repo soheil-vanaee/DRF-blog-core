@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechBlog - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #444;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+        }
+        
+        nav a:hover {
+            background-color: #555;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .post {
+            background-color: white;
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .post h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .post-meta {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .post .summary {
+            margin-bottom: 1rem;
+        }
+        
+        .post a {
+            color: #007cba;
+            text-decoration: none;
+        }
+        
+        .post a:hover {
+            text-decoration: underline;
+        }
+        
+        .filters {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .filters h3 {
+            margin-top: 0;
+        }
+        
+        .filter-group {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TechBlog</h1>
+        <p>Your source for technology insights and tutorials</p>
+    </header>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/api/">API Documentation</a>
+        <a href="/admin/">Admin</a>
+    </nav>
+    
+    <div class="container">
+        <div class="filters">
+            <h3>Filter Posts</h3>
+            <div class="filter-group">
+                <label for="category-filter">Category:</label>
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="date-filter">Sort by Date:</label>
+                <select id="date-filter">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="posts-container">
+            {% if posts %}
+                {% for post in posts %}
+                <div class="post">
+                    <h2><a href="/api/posts/{{ post.id }}/">{{ post.title }}</a></h2>
+                    <div class="post-meta">
+                        By <span class="author">{{ post.author.username }}</span> on <span class="date">{{ post.created_at|date:"F d, Y" }}</span>
+                        {% if post.category %}in <span class="category">{{ post.category.name }}</span>{% endif %}
+                    </div>
+                    <div class="summary">
+                        <p>{{ post.summary }}</p>
+                    </div>
+                    <a href="/api/posts/{{ post.id }}/">Read More</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No posts available yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2026 TechBlog. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // This would be replaced with actual API calls in a real implementation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample JavaScript to handle filtering and sorting
+            const categoryFilter = document.getElementById('category-filter');
+            const dateFilter = document.getElementById('date-filter');
+            
+            categoryFilter.addEventListener('change', function() {
+                console.log('Filtering by category:', this.value);
+                // In a real implementation, this would call the API with the selected category
+            });
+            
+            dateFilter.addEventListener('change', function() {
+                console.log('Sorting by date:', this.value);
+                // In a real implementation, this would call the API with the selected sort order
+            });
+        });
+    </script>
+</body>
+</html>
